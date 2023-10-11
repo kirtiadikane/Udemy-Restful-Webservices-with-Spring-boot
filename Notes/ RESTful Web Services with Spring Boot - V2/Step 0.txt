@@ -6,6 +6,24 @@ We should add in is Spring Boot DevTools dependency in pom.xml, when we don't wa
 Spring Boot DevTools provides fast application restarts, LiveReload, and provides you with enhanced development experience.
 
 
+---------------------------------------------------------------------------------------
+Step 11 - Implementing Exception Handling - 404 Resource Not Found
+---------------------------------------------------------------------------------------
+One of the important things that you need to remember is
+that when you run the application in production,
+you'd be running it as a JAR file.
+So you'll be creating a JAR file,
+from this specific application,
+and you'll be running it using something
+like Java -jar and run the JAR file.
+And when you run a packaged application like that,
+dev tools is automatically disabled.
+So, in production, even if let's say you have this enabled
+in the "pom.xml", let's say this is enabled,
+and if you build a JAR file for this,
+and if you run the JAR file.
+In that kind of scenario,
+you will not be able to see the complete stack trace.
 
 
 
