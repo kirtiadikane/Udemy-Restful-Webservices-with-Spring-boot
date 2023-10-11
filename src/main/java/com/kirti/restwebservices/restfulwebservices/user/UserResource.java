@@ -16,7 +16,7 @@ import jakarta.validation.Valid;
 
 @RestController
 public class UserResource {
-
+	
 	private UserDaoService userDaoService;
 	
 	//Constructor Injection
@@ -52,4 +52,5 @@ public class UserResource {
 	public void deleteUser(@PathVariable Integer id) {
 		userDaoService.deleteUserById(id);
 	}
+
 }
