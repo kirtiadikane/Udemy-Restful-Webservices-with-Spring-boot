@@ -1,0 +1,210 @@
+Step 19 - Exploring Content Negotiation - Implementing Support for XML
+-----------------------------------------------------------------------------
+
+What is content negotiation? And why do we need it for our rest API?
+
+Typically, when we talk about rest resources. The same resource has the same URI.
+When we talk about users, it is localhost:8080/users. So a specific resource, has a specific URI.
+However, different representations are possible. I might want to get the user details in JSON format. Some of the consumer, 
+might expect the response back in an XML format. So for the same resource, you might have different representations that are possible.
+So you can have expectations that, you might be having different content types, XML or JSON. Or you might even be expecting the response back,
+in a different language. If this response has some text, for example, you might want to expose the same resource in multiple different languages.
+English, Dutch, German, French. Whichever language you want to support. So for the same resource, for the same URI, you might have different 
+representations. You might want to send the response back, in different formats, or in different languages. And your consumers, 
+need to tell you which representation they want.
+
+
+
+How can a consumer, tell the Rest API provider which representation they would want?
+
+How can a consumer, tell the Rest API provider which representation they would want?
+That's where this term called content negotiation, comes into picture. A consumer can use things like Accept header. When I'm sending a request, 
+I can send a request, with a mime type of application XML. So I can create a accept header, with the value application XML, and say I would want 
+a XML response back. Or, I can use applications slash JSON. This is to get a JSON response back. Another example is to make use, of the Accept Language Header. 
+As part of your request, in the headers, you can add a header, called Accept Language. And you can tell I would want English, or I would want Dutch, 
+or I would want French. So basically, what we are talking about, is the fact that for the same resource you might have different representations. 
+And in content negotiation what happens is, the consumer and the service provider negotiate with each other. The consumer tells, the content provider 
+what kind of representation they would want. I would want XML response, or JSON response, or I would want the text back in Dutch language. 
+And this is typically done using your request headers. In this step, let's focus on Accept Header. Let's add XML representations for our resources. 
+As you expect with Spring Boot, it's very, very easy. All that you need to do is to go to your program XML and add in a simple dependency.
+The group idea of dependency is com faster XML, Jackson data format, and the artifact ID, is Jackson hyphen data format hyphen XML. 
+You can see that now, the application, is responding back with a XML response. And the only thing that we needed to do, to enable this was to add in a simple, 
+dependency into our pom.XML, com. faster XML, Jackson data format XML. So once you add this dependency in, whenever a user adds a accept header, with application/XML. 
+In that kind of scenario, we would be sending an XML response back. If users want a JSON response, they can actually send a Accept Header, application/JSON, and send it.
+In that kind of scenario, you'd get a JSON response back. So for the same user resource, what we are doing is we are creating two different representations.
+ We are creating a JSON representation, as well as an XML representation. 
+
+
+
+
+That's where this term called content negotiation, comes
+
+into picture.
+
+A consumer can use things like Accept header.
+
+When I'm sending a request,
+
+I can send a request, with a mime type of application XML.
+
+So I can create a accept header,
+
+with the value application XML, and say
+
+I would want a XML response back.
+
+Or, I can use applications slash JSON.
+
+This is to get a JSON response back.
+
+Another example is to make use,
+
+of the Accept Language Header.
+
+As part of your request, in the headers,
+
+you can add a header, called Accept Language.
+
+And you can tell I would want English,
+
+or I would want Dutch, or I would want French.
+
+So basically, what we are talking about, is the fact that
+
+for the same resource you might have different
+
+representations.
+
+And in content negotiation what happens is,
+
+the consumer and the service provider negotiate
+
+with each other.
+
+The consumer tells, the content provider what kind
+
+of representation they would want.
+
+I would want XML response, or JSON response,
+
+or I would want the text back in Dutch language.
+
+And this is typically done using your request headers.
+
+In this step, let's focus on Accept Header.
+
+Let's add XML representations for our resources.
+
+As you expect with Spring Boot, it's very, very easy.
+
+All that you need to do is to go to your
+
+program XML and add in a simple dependency.
+
+The group idea of dependency is com faster XML,
+
+Jackson data format, and the artifact ID,
+
+is Jackson hyphen data format hyphen XML.
+
+So go ahead and save this, and I would actually
+
+stop the server, and I would need to start it again.
+
+So whenever make a change,
+
+in the dependencies in the program XML,
+
+you need to restart the server to pick it up.
+
+I would go to our talent APA tester.
+
+I would go and check out, our earlier request,
+
+to get all the users.
+
+So I'll click this, I'll say continue.
+
+So we have a get request going into
+
+http slash slash local host 80 80 slash users.
+
+Let's do a send.
+
+You can see that by default,
+
+we are getting the response back in JSON format.
+
+Let's now add in a header.
+
+I'll say Accept and application/XML, and say send.
+
+You can see that now, the application,
+
+is responding back with a XML response.
+
+And the only thing that we needed to do, to
+
+enable this was to add in a simple,
+
+dependency into our program XML,
+
+com. faster XML, Jackson data format,
+
+Jackson data format XML.
+
+So once you add this dependency in,
+
+whenever a user adds a accept header,
+
+with application/XML.
+
+In that kind of scenario,
+
+we would be sending an XML response back.
+
+If users want a JSON response,
+
+they can actually send a Accept Header, application JSON,
+
+and send it.
+
+In that kind of scenario, you'd get a JSON response back.
+
+So for the same user resource, what we are
+
+doing is we are creating two different representations.
+
+We are creating a JSON representation, as well
+
+as an XML representation.
+
+Now the XML representation and the swagger documentation,
+
+can cause a few problems when we are playing,
+
+with a few of the other advanced features.
+
+So, what I'll do now is, I'll commend them out.
+
+So I'll go ahead, commend these dependencies out.
+
+And, what I'll do is also, stop and start the server app.
+
+So we remove the dependencies and started the server app.
+
+In this step, we played around with the first part,
+
+of content negotiation, making use of accept headers to
+
+either send a XML response or a JSON response.
+
+In next step, let's look at Accept Language Header.
+
+How can you use Accept Language Header,
+
+to send responses back in different languages?
+
+I'm sure you having a wonderful time,
+
+and I'll see you in the next step.
