@@ -1,0 +1,14 @@
+Step 00 - Creating a REST API with Spring Boot - An Overview
+---------------------------------------------------------------------------------------
+***** Spring Boot DevTools dependency
+
+We should add in is Spring Boot DevTools dependency in pom.xml, when we don't want to restart the server every time we make a code change. 
+Spring Boot DevTools provides fast application restarts, LiveReload, and provides you with enhanced development experience.
+
+
+
+
+
+
+
+
