@@ -1,0 +1,13 @@
+Step 04 - What's happening in the background? Spring Boot Starters & Autoconfiguration
+---------------------------------------------------------------------------------------
+
+How are our requests getting handled?
+Whenever we talk about spring Mvc, we are talking about a front controller pattern. What would happen is that all our requests are first going to something called DispatcherServlet.
+Earlier we executed our request local host 8080 Hello World bean and we also executed requests to Hello World. Irrespective of the URL you are making use of all requests when we talk about Spring MVC are being handled by DispatcherServlet. This is called the front controller pattern. Basically, dispatcher servlet is the first thingthat your request goes to, irrespective of the URL you are making use of, why? Because dispatcher servlet is mapped to the route URL.
+If you search in the logs and if you search for mapping servlets or dispatcher servlet. If you search the logs you should see something called mapping servlets in here. So you can see that the dispatcher servlet is being mapped to the URL route.
+If you search for dispatcher servlet, you should see the URL of Route map to it. So all the requests first go to the dispatcher servlet. And once dispatcher servlet gets the request, it would map the request to the right controller. Right now we only have one controller. So dispatcher servlet will look at the URL and the dispatcher servlet would map it to the right controller method. So if you're sending it to slash Hello-World then dispatcher servlet knows that the HelloWorld method is the right one for it. If you're sending a request to the hello-world-bean URL, this dispatcher servlet knows that hello world bean method can handle that and it will get the response from the Hello World bean and written it back. 
+Now you might be wondering who is configuring dispatcher servlet?
+The dispatcher servlet is configured because of something called auto configuration. Auto configuration is one of the most important springboard features. Based on the classes which are available in the class path, Spring Boot would automatically detect the fact that we are building a web application a rest API, and therefore it automatically configures a dispatcher servlet. If you search for dispatcher servlet auto configuration in the logs, if you search
+for dispatcher servlet auto configuration in the log you should see a bean which is being created. So this has matched and therefore this would go ahead and configure a dispatcher servlet for us.
+
+The next question is How does HelloWorldBean object get converted to JSON?
