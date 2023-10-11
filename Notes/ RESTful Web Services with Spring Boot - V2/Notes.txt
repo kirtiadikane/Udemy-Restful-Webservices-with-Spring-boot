@@ -1,13 +1,72 @@
 Step 04 - What's happening in the background? Spring Boot Starters & Autoconfiguration
 ---------------------------------------------------------------------------------------
 
-How are our requests getting handled?
+**** How are our requests getting handled?
 Whenever we talk about spring Mvc, we are talking about a front controller pattern. What would happen is that all our requests are first going to something called DispatcherServlet.
-Earlier we executed our request local host 8080 Hello World bean and we also executed requests to Hello World. Irrespective of the URL you are making use of all requests when we talk about Spring MVC are being handled by DispatcherServlet. This is called the front controller pattern. Basically, dispatcher servlet is the first thingthat your request goes to, irrespective of the URL you are making use of, why? Because dispatcher servlet is mapped to the route URL.
-If you search in the logs and if you search for mapping servlets or dispatcher servlet. If you search the logs you should see something called mapping servlets in here. So you can see that the dispatcher servlet is being mapped to the URL route.
-If you search for dispatcher servlet, you should see the URL of Route map to it. So all the requests first go to the dispatcher servlet. And once dispatcher servlet gets the request, it would map the request to the right controller. Right now we only have one controller. So dispatcher servlet will look at the URL and the dispatcher servlet would map it to the right controller method. So if you're sending it to slash Hello-World then dispatcher servlet knows that the HelloWorld method is the right one for it. If you're sending a request to the hello-world-bean URL, this dispatcher servlet knows that hello world bean method can handle that and it will get the response from the Hello World bean and written it back. 
-Now you might be wondering who is configuring dispatcher servlet?
-The dispatcher servlet is configured because of something called auto configuration. Auto configuration is one of the most important springboard features. Based on the classes which are available in the class path, Spring Boot would automatically detect the fact that we are building a web application a rest API, and therefore it automatically configures a dispatcher servlet. If you search for dispatcher servlet auto configuration in the logs, if you search
-for dispatcher servlet auto configuration in the log you should see a bean which is being created. So this has matched and therefore this would go ahead and configure a dispatcher servlet for us.
+Earlier we executed our request local host 8080 Hello World bean and we also executed requests to Hello World. Irrespective of the URL you are making use of all requests 
+when we talk about Spring MVC are being handled by DispatcherServlet. This is called the front controller pattern. Basically, dispatcher servlet is the first thing that your request goes to, irrespective of the URL 
+you are making use of, why? Because dispatcher servlet is mapped to the route URL.
+If you search in the logs and if you search for mapping servlets or dispatcher servlet. If you search the logs you should see something called mapping servlets in here. 
+So you can see that the dispatcher servlet is being mapped to the URL route. If you search for dispatcher servlet, you should see the URL of Route map to it. So all the requests 
+first go to the dispatcher servlet. And once dispatcher servlet gets the request, it would map the request to the right controller. Right now we only have one controller. 
+So dispatcher servlet will look at the URL and the dispatcher servlet would map it to the right controller method. So if you're sending it to /Hello-World then dispatcher servlet 
+knows that the HelloWorld method is the right one for it. If you're sending a request to the hello-world-bean URL, this dispatcher servlet knows that hello world bean method can 
+handle that and it will get the response from the Hello World bean and written it back. 
 
-The next question is How does HelloWorldBean object get converted to JSON?
+---------------------------------------------------------------------------------------
+
+**** Now you might be wondering who is configuring dispatcher servlet?
+The dispatcher servlet is configured because of something called auto configuration. Auto configuration is one of the most important spring boot features. 
+Based on the classes which are available in the class path, Spring Boot would automatically detect the fact that we are building a web application a rest API, and therefore it 
+automatically configures a dispatcher servlet. If you search for dispatcher servlet auto configuration in the logs, you should see a bean which is being created. So this has 
+matched and therefore this would go ahead and configure a dispatcher servlet for us.
+
+---------------------------------------------------------------------------------------
+
+**** The next question is How does HelloWorldBean object get converted to JSON?
+Earlier we executed this request localhost:8080/hello-world-bean, message, Hello World. So the request goes to dispatcher servlet. Dispatcher servlet would check what are the URLs
+that are available and it'll be able to map and it'll be able to detect that this /hello-world-bean is mapped to this method so it would execute this method. And over here we are 
+return a Java bean back.
+
+---------------------------------------------------------------------------------------
+
+**** How does it get converted to JSON?
+There are two very important parts that are involved.
+Number one is at ResponseBody.
+Next one is the configuration of JacksonHTTPMessageConverters
+Let's start with response body. Over here we are configuring the annotation @RestController. At rest controller, If you click it and go inside control, click and go inside or 
+command, click and go inside. You'd be able to see that this has the annotation @ResponseBody. Basically what we are telling is that this bean should be returned as is and when 
+we return the bean as is, there is message conversion which would happen. The default conversion, which is set up by Spring boot auto configuration, is using Jackson HTTP message 
+converters and this is also a result of auto configuration. If you search for Jackson HTTP message converters configuration, let's go in here and search your auto configuration results.
+You should see something called Jackson HTTP Message Converters Configuration.
+This is automatically configured for REST API by Spring Boot. So the Hello World Bean is getting converted to JSON because of our @ response body annotation and the fact that 
+Jackson HTTP message converters are auto configured by Spring Boot.
+
+---------------------------------------------------------------------------------------
+
+**** Number three, Who is configuring error mapping?
+What do I mean? Let's go in here and type in a wrong URL. Instead of Hello world bean, let's say I make a mistake and type in Hello World Bean hyphen one. You get a Whitelabel 
+error page. It says, This application has no explicit mapping for slash error and it's saying 404 is this status.
+
+---------------------------------------------------------------------------------------
+
+**** Now who's configuring this error page?
+The error page is also a result of auto configuration. So you'd see something called error Mvc auto configuration. If you'd search the logs you'd see something called error 
+Mvc auto configuration. And if you open up error Mvc auto configuration class, if you scroll down a little, you can see the text in here. So this is where our whitelabel error 
+page is coming in from. So this is where our text is coming in from. White label error page. There is no error mapping. So this error Mvc Auto configuration class is made use 
+of to configure error page automatically whenever an unknown URL is typed into the browser.
+
+---------------------------------------------------------------------------------------
+
+**** The last question we'll be talking about is how are all the jars available? Spring, Spring MVC, Jackson, Tomcat.
+We saw that our application is running directly in Tomcat. We did not do anything to set up Tomcat at all. So how are these all available to us? The answer to that is because of 
+starter projects. When we created this project we included spring web in our dependencies and spring web is what is called Spring Boot Starter Web. If you go over to our pom.XML 
+you'd see Spring Boot Starter Web here. And if I look at the pom.xml for this, you would see that there are a number of dependencies which I defined in here. Spring Boot starter, 
+Spring Boot starter JSON, this is what brings in JSON conversion with Jackson by default, this is what brings in Tomcat. And this spring web dependency, which is present in here 
+is the one which brings in spring Mvc. So you can see that all the dependencies that we are making use of are coming in because of just one starter, Spring boot starter web. 
+So at a high level, the important thing to understand is that the starter projects bring in all the dependencies. So Spring, Spring Mvc, Jackson Framework, Tomcat all of them are 
+coming into your project because of startup projects and Spring Boot Auto configuration does rest of the magic. Spring Boot auto configuration looks at the class path, looks at all 
+the jars and the classes that are available in the class path. And based on what is available in the class path it can auto configure a lot of things. By default, whenever you have 
+Spring Boot starter web in the configuration, Tomcat web server would be auto configured. Dispatcher servlet would be auto configured. The bean to JSON Conversion would be auto 
+configured using Jackson. And an error page is also auto configured for you. So all the magic that is happening in the application right now is becauseof Spring Boot and the two 
+most important features of Spring Boot; Starter projects and Auto configuration.
