@@ -1,5 +1,5 @@
 Step 18 - Exploring Content Negotiation - Implementing Support for XML
------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 ***** What is content negotiation? And why do we need it for our rest API?
 
