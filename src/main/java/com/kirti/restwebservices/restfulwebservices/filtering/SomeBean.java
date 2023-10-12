@@ -1,14 +1,16 @@
 package com.kirti.restwebservices.restfulwebservices.filtering;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //@JsonIgnoreProperties({"field1","field3"})
+@JsonFilter("KirtiSomeBeanFilter")
 public class SomeBean {
 	
 	private String field1;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	private String field2;
 	private String field3;
 	
