@@ -3,6 +3,10 @@ package com.kirti.restwebservices.restfulwebservices.user;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +33,19 @@ public class UserResource {
 		return userDaoService.findAllUsers();
 	}
 	
+	//HATEOAS - HyperMedia as the Engine of Application State
+	//EntityModel and WebMvcLinkBuilder
+
 	@GetMapping("/users/{id}")
-	public User retrieveUserById(@PathVariable Integer id){
-		User findUserById = userDaoService.findUserById(id);
-		if(findUserById == null) {
+	public EntityModel<User> retrieveUserById(@PathVariable Integer id){
+		User userById = userDaoService.findUserById(id);
+		if(userById == null) {
 			throw new UserNotFoundException("User not found with id = " + id);
 		}
-		return findUserById;
+		EntityModel<User> entityModel = EntityModel.of(userById);
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrievAllUsers());
+		entityModel.add(link.withRel("all-users"));
+		return entityModel;
 	}
 	
 	@PostMapping("/users")
