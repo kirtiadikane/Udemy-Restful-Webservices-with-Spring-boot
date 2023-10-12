@@ -44,7 +44,7 @@ public class FilteringController {
 				new SomeBean("value4","value5","value6"));
 		MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(valueList);
 		
-		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field3");
+		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field3","field1");
 		FilterProvider filterProvider = new SimpleFilterProvider().addFilter("KirtiSomeBeanFilter", filter );
 		mappingJacksonValue.setFilters(filterProvider);
 		return mappingJacksonValue;
