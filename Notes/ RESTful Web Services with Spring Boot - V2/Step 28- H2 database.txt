@@ -1,0 +1,9 @@
+Add H2 config details in application.properties file.
+
+URL to access H2 DB- http://localhost:8080/h2-console
+Add jdbc:h2:mem:testdb in the url
+
+When I save this, I see an error saying, "Table 'user_details' is not found." So, the data.SQL is getting executed before our tables are created in H2 database. 
+And we want to delay that. That is why we are going to use a property, "spring.jpa.defer-datasource-initialization=true".
+So, we want to defer the initialization of datasource the execution of data SQL.
+
