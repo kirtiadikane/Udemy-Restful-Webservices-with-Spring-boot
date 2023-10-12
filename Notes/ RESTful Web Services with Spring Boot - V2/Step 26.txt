@@ -1,0 +1,18 @@
+ Step 26 - Exploring APIs with Spring Boot HAL Explorer
+ -----------------------------------------------------------
+
+HAL stands for Jason Hypertext Application Language.
+It's a simple format that gives a consistent and easy way to hyperlink between resources in our API.
+Earlier, we enhanced our GET request users/{id} a specific user API to return a link to all users. The format which we are making use of in here is HAL format. So we have _links inside which, all our links are defined.
+
+
+
+HAL Explorer is an API explorer for restful Hypermedia APIs, which are using HAL.
+If your APIs are using HAL then you can use HAL Explorer to explore your APIs. The biggest advantage of using HAL Explorer is
+that it enables your non-technical teams also to play with your APIs.
+Spring Boot, HAL Explorer Auto configures HAL Explorer for Spring Boot Projects.
+So if you want to use HAL Explorer in your Spring boot projects, the easiest way to do that is by using Spring Boot HAL Explorer.
+
+
+****
+Add the HAL dependency in pom.xml and enter http://localhost:8080/ in the browser, we will get the HAL explorer.
