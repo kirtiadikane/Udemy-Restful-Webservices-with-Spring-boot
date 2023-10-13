@@ -1,3 +1,5 @@
+--Whatever we have in data.sql will not be executed, if we are connecting to a real database.
+--The queries which are present in data.sql are only executed if we're connecting to an in-memory database (like H2 Database)
 insert into user_details(id,birth_date,name)
 values(10001, current_date(), 'kirti');
 
