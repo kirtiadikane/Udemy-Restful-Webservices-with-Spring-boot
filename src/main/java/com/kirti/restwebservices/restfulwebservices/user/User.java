@@ -15,16 +15,20 @@ import jakarta.validation.constraints.Size;
 //User Bean
 public class User {
 
+	protected User() {
+		
+	}
+	
 	@Id
 	@GeneratedValue
 	private Integer id;
 	
 	@Size(min=2, message = "Name should have atleast 2 characters")
-	@JsonProperty("User name")
+	//@JsonProperty("User name")
 	private String name;
 	
 	@Past(message = "Birth date should be in the past")
-	@JsonProperty("Birth date")
+	//@JsonProperty("Birth date")
 	private LocalDate birthDate;
 	
 	public User(Integer id, String name, LocalDate birthDate) {
