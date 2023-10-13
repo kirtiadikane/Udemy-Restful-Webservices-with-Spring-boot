@@ -6,4 +6,5 @@ import com.kirti.restwebservices.restfulwebservices.user.Post;
 
 public interface PostRepository extends JpaRepository<Post, Integer>{
 
+
 }

@@ -98,15 +98,24 @@ public class UserJpaResource {
 	}
 	
 	@GetMapping("/users/{userId}/posts/{postId}")
-	public Post retrievePostForUserByPostId(@PathVariable Integer userId, @PathVariable Integer postId) {
+	public EntityModel<Post> retrievePostForUserByPostId(@PathVariable Integer userId, @PathVariable Integer postId) {
 		Optional<User> user = userRepository.findById(userId);
 		if(user.isEmpty()) {
 			throw new UserNotFoundException("User not found with User Id = " + userId);
 		}
 		Optional<Post> post = postRepository.findById(postId);
+		System.out.println(post);
 		if(post.isEmpty()) {
+			throw new UserNotFoundException("Post not found with post Id = " + postId);			
+		}
+		boolean postBelongsToUser = post.get().getUser().getId().equals(user.get().getId());
+		if(!postBelongsToUser) {
 			throw new UserNotFoundException("Post not found for the user " + user.get().getName() + " with post Id = " + postId);
 		}
-		return post.get();	
+		//return post.get();		
+		EntityModel<Post> entityModel = EntityModel.of(post.get());
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrievePostsForUser(userId));
+		entityModel.add(link.withRel("all posts of " + user.get().getName()));
+		return entityModel;
 	}
 }
