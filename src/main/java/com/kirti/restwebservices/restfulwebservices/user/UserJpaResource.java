@@ -1,4 +1,4 @@
-package com.kirti.restwebservices.restfulwebservices.user.jpa;
+package com.kirti.restwebservices.restfulwebservices.user;
 
 import java.net.URI;
 import java.util.List;
@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.kirti.restwebservices.restfulwebservices.user.Post;
-import com.kirti.restwebservices.restfulwebservices.user.User;
-import com.kirti.restwebservices.restfulwebservices.user.UserDaoService;
-import com.kirti.restwebservices.restfulwebservices.user.UserNotFoundException;
+import com.kirti.restwebservices.restfulwebservices.user.jpa.PostRepository;
+import com.kirti.restwebservices.restfulwebservices.user.jpa.UserRepository;
 
 import jakarta.validation.Valid;
 
@@ -31,9 +29,12 @@ public class UserJpaResource {
 	
 	private UserRepository userRepository;
 	
+	private PostRepository postRepository;
+	
 	//Constructor Injection
-	public UserJpaResource(UserRepository userRepository) {
+	public UserJpaResource(UserRepository userRepository, PostRepository postRepository) {
 		this.userRepository = userRepository;
+		this.postRepository = postRepository;
 	}
 	
 	@GetMapping("/users")
@@ -71,13 +72,41 @@ public class UserJpaResource {
 		userRepository.deleteById(id);
 	}
 
-	@GetMapping("/users/{id}/posts")
-	public List<Post> retrievePostsForUser(@PathVariable Integer id){
-		Optional<User> userById = userRepository.findById(id);
+	@GetMapping("/users/{userId}/posts")
+	public List<Post> retrievePostsForUser(@PathVariable Integer userId){
+		Optional<User> userById = userRepository.findById(userId);
 		if(userById.isEmpty()) {
-			throw new UserNotFoundException("User not found with id = " + id);
+			throw new UserNotFoundException("User not found with id = " + userId);
 		}
 		List<Post> posts = userById.get().getPosts();
 		return posts;
+	}
+	
+	@PostMapping("/users/{userId}/posts")
+	public ResponseEntity<Post> createPostforUser(@PathVariable Integer userId, @Valid @RequestBody Post post) {
+		Optional<User> userById = userRepository.findById(userId);
+		if(userById.isEmpty()) {
+			throw new UserNotFoundException("User not found with User Id = " + userId);
+		}
+	    post.setUser(userById.get());
+	    Post savedPost = postRepository.save(post);
+	    URI postLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{postId}")
+				.buildAndExpand(savedPost.getId())
+				.toUri() ;
+		return ResponseEntity.created(postLocation).build();		
+	}
+	
+	@GetMapping("/users/{userId}/posts/{postId}")
+	public Post retrievePostForUserByPostId(@PathVariable Integer userId, @PathVariable Integer postId) {
+		Optional<User> user = userRepository.findById(userId);
+		if(user.isEmpty()) {
+			throw new UserNotFoundException("User not found with User Id = " + userId);
+		}
+		Optional<Post> post = postRepository.findById(postId);
+		if(post.isEmpty()) {
+			throw new UserNotFoundException("Post not found for the user " + user.get().getName() + " with post Id = " + postId);
+		}
+		return post.get();	
 	}
 }
